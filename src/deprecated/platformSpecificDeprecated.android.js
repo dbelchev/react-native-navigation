@@ -11,7 +11,7 @@ const resolveAssetSource = require('react-native/Libraries/Image/resolveAssetSou
 import * as newPlatformSpecific from './../platformSpecific';
 
 async function startSingleScreenApp(params) {
-  const components = params.components;
+  const components = _.cloneDeep(params.components);
   if (!params.screen && !components) {
     console.error('startSingleScreenApp(params): screen must include a screen property');
     return;
@@ -592,8 +592,9 @@ function addNavigatorButtons(screen, sideMenuParams) {
   }
 
   // Get image uri from image id
-  const rightButtons = getRightButtons(screen);
+  let rightButtons = getRightButtons(screen);
   if (rightButtons) {
+    rightButtons = _.cloneDeep(rightButtons);
     rightButtons.forEach(function(button) {
       button.enabled = !button.disabled;
       if (button.icon) {
@@ -615,6 +616,7 @@ function addNavigatorButtons(screen, sideMenuParams) {
 
   let leftButton = getLeftButton(screen);
   if (leftButton) {
+    leftButton = _.cloneDeep(leftButton);
     if (leftButton.icon) {
       const icon = resolveAssetSource(leftButton.icon);
       if (icon) {
